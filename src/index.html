@@ -20,7 +20,9 @@
             React.createElement('h2', {key: 2}, 'Welcome to Adopt Me!')
         ]);
     };
-    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container)
+    root.render(React.createElement(App));
 </script>
 
 </body>
