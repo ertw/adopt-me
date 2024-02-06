@@ -5,6 +5,7 @@ const Pet = ({name, animal, breed}) => {
         React.createElement('h2', {key: 4}, breed),
     ]);
 }
+
 const App = () => {
     return React.createElement('div', {className: "react-root"}, [
         React.createElement('h1', {key: 1}, 'Adopt Me!'),
@@ -30,8 +31,6 @@ const App = () => {
     ]);
 };
 
-
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container)
 root.render(React.createElement(App));
-
