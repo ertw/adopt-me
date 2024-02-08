@@ -1,3 +1,6 @@
+import React from "react";
+import { createRoot } from "react-dom";
+
 const Pet = ({ name, animal, breed }) => {
   return React.createElement("div", { key: 1 }, [
     React.createElement("h1", { key: 2 }, name),
@@ -32,5 +35,5 @@ const App = () => {
 };
 
 const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container);
+const root = createRoot(container);
 root.render(React.createElement(App));
