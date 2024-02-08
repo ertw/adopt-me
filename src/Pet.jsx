@@ -17,7 +17,7 @@ import React from "react";
  * @returns {JSX.Element} A React element that displays the pet's name, animal type, and breed.
  */
 
-export const Pet = ({ name, animal, breed }) => {
+const Pet = ({ name, animal, breed }) => {
   return (
     <div>
       <h1>{name}</h1>
@@ -26,3 +26,5 @@ export const Pet = ({ name, animal, breed }) => {
     </div>
   );
 };
+
+export default Pet;
