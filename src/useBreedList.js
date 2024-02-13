@@ -5,6 +5,7 @@ export default function useBreedList(animal) {
   const results = useQuery({
     queryKey: ["breeds", animal],
     queryFn: fetchBreedList,
+    enabled: !!animal,
   });
 
   return [results?.data?.breeds ?? [], results.status];
