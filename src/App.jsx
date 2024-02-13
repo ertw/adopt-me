@@ -1,40 +1,67 @@
-import React, { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import SearchParams from "./SearchParams.jsx";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import Details from "./Details.jsx";
+import React, { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Link,
+  Outlet,
+  RouterProvider,
+} from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import SearchParams from "./SearchParams.jsx";
+import { StrictMode } from "react";
+import Details from "./Details.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
-      cacheTime: 1000 * 60 * 30,
+      staleTime: Infinity,
+      cacheTime: Infinity,
     },
   },
 });
-const App = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+
+const rootRoute = createRootRoute({
+  component: () => (
+    <div>
+      <QueryClientProvider client={queryClient}>
         <header>
           <Link to="/">Adopt Me!</Link>
         </header>
-        <Routes>
-          <Route path="/details/:id" element={<Details />} />
-          <Route path="/" element={<SearchParams />} />
-        </Routes>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  );
-};
+        <Outlet />
+        <TanStackRouterDevtools />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </div>
+  ),
+});
+
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: function Index() {
+    return <SearchParams />;
+  },
+});
+
+const detailsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/details/$id",
+  component: function About() {
+    return <Details />;
+  },
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, detailsRoute]);
+
+const router = createRouter({ routeTree });
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </StrictMode>,
 );
