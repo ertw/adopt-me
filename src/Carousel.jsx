@@ -21,6 +21,9 @@ export default class Carousel extends Component {
               src={photo}
               className={index === active ? "active" : ""}
               alt="animal thumbnail"
+              onClick={() =>
+                this.setState((prevState) => ({ ...prevState, active: index }))
+              }
             />
           ))}
         </div>
