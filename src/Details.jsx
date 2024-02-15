@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import fetchPet from "./fetchPet.js";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary.jsx";
+import Modal from "./Modal.jsx";
 
 const Details = () => {
+  const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
   const result = useQuery({ queryKey: ["details", id], queryFn: fetchPet });
   if (result.isLoading) {
@@ -25,8 +27,21 @@ const Details = () => {
         <h2>
           {pet.animal} - {pet.breed} - {pet.city}, {pet.state}
         </h2>
-        <button>Adopt {pet.name}</button>
+        <button onClick={() => setShowModal(true)}>Adopt {pet.name}</button>
         <p>{pet.description}</p>
+        {showModal ? (
+          <Modal isOpen={true}>
+            <div>
+              <h1>Would you like to adopt {pet.name}?</h1>
+              <div className="buttons">
+                <button onClick={() => setShowModal(false)}>Yes</button>
+                <button onClick={() => setShowModal(false)}>
+                  Definitely Yes
+                </button>
+              </div>
+            </div>
+          </Modal>
+        ) : null}
       </div>
     </div>
   );
