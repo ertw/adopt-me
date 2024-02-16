@@ -13,6 +13,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import SearchParams from "./SearchParams.jsx";
 import { StrictMode } from "react";
 import Details from "./Details.jsx";
+import AdoptedPetContextProvider from "./AdoptedPetContext.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,14 +24,16 @@ const queryClient = new QueryClient({
   },
 });
 
-const rootRoute = createRootRoute({
+export const rootRoute = createRootRoute({
   component: () => (
     <div>
       <QueryClientProvider client={queryClient}>
-        <header>
-          <Link to="/">Adopt Me!</Link>
-        </header>
-        <Outlet />
+        <AdoptedPetContextProvider>
+          <header>
+            <Link to="/">Adopt Me!</Link>
+          </header>
+          <Outlet />
+        </AdoptedPetContextProvider>
         <TanStackRouterDevtools />
         <ReactQueryDevtools />
       </QueryClientProvider>
